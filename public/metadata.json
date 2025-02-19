@@ -1,0 +1,322 @@
+{
+  "page_delta": 100,
+  "types": [
+    {
+      "id": "_feature",
+      "label": "Feature",
+      "icon": "star",
+      "color": "#d7b500",
+      "state_flow": {
+        "_unscheduled": ["_started"],
+        "_planned": ["_started"],
+        "_unstarted": ["_started"],
+        "_started": ["_delivered"],
+        "_finished": ["_accepted", "_rejected"],
+        "_delivered": ["_accepted", "_rejected"]
+      }
+    },
+    {
+      "id": "_bug",
+      "label": "Bug",
+      "icon": "bug",
+      "color": "#b32929",
+      "state_flow": {
+        "_unscheduled": ["_started"],
+        "_planned": ["_started"],
+        "_unstarted": ["_started"],
+        "_started": ["_delivered"],
+        "_finished": ["_accepted", "_rejected"],
+        "_delivered": ["_accepted", "_rejected"]
+      }
+    },
+    {
+      "id": "_chore",
+      "label": "Chore",
+      "icon": "gear",
+      "color": "grey",
+      "state_flow": {
+        "_unscheduled": ["_started"],
+        "_planned": ["_started"],
+        "_unstarted": ["_started"],
+        "_started": ["_delivered"],
+        "_finished": ["_accepted", "_rejected"],
+        "_delivered": ["_accepted", "_rejected"]
+      }
+    },
+    {
+      "id": "_release",
+      "label": "Release",
+      "icon": "flag",
+      "color": "white",
+      "state_flow": {
+        "_unscheduled": ["_started"],
+        "_planned": ["_started"],
+        "_unstarted": ["_started"],
+        "_started": ["_delivered"],
+        "_finished": ["_accepted", "_rejected"],
+        "_delivered": ["_accepted", "_rejected"]
+      }
+    }
+  ],
+  "states": [
+    {
+      "id": "_accepted",
+      "label": "Accepted",
+      "btn_label": "Accept",
+      "color": "white",
+      "bg_color": "#060"
+    },
+    {
+      "id": "_delivered",
+      "label": "Delivered",
+      "btn_label": "Deliver",
+      "color": "white",
+      "bg_color": "#003"
+    },
+    {
+      "id": "_finished",
+      "label": "Finished",
+      "btn_label": "Finish",
+      "color": "white",
+      "bg_color": "orange"
+    },
+    {
+      "id": "_started",
+      "label": "Started",
+      "btn_label": "Start",
+      "color": "#666",
+      "bg_color": "#EEE"
+    },
+    {
+      "id": "_rejected",
+      "label": "Rejected",
+      "btn_label": "Reject",
+      "color": "white",
+      "bg_color": "#900"
+    },
+    {
+      "id": "_planned",
+      "label": "Planned"
+    },
+    {
+      "id": "_unstarted",
+      "label": "Unstarted"
+    },
+    {
+      "id": "_unscheduled",
+      "label": "Unscheduled"
+    }
+  ],
+  "task_bins": [
+    {
+      "name": "_backlog",
+      "label": "Backlog"
+    },
+    {
+      "name": "_icebox",
+      "label": "Icebox"
+    },
+    {
+      "name": "_done",
+      "label": "Done",
+      "last_offset": true
+    }
+  ],
+  "core_properties": [
+    {"name": "create_date", "db_type": "VARCHAR(24)"},
+    {"name": "modify_date", "db_type": "VARCHAR(24)"},
+    {"name": "delete_date", "db_type": "VARCHAR(24)"}
+  ],
+  "entities": [
+    {
+      "id": "project",
+      "plural": "projects",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "name", "db_type": "VARCHAR(50)"},
+        {"name": "initials", "db_type": "VARCHAR"}
+      ]
+    },
+    {
+      "id": "task",
+      "plural": "tasks",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "type", "db_type": "VARCHAR"},
+        {"name": "name", "db_type": "VARCHAR(5000)"},
+        {"name": "state", "db_type": "VARCHAR"},
+        {"name": "description", "db_type": "VARCHAR(20000)"},
+        {"name": "estimate", "db_type": "REAL"},
+        {"name": "deadline", "db_type": "VARCHAR(10)"},
+        {"name": "accept_date", "db_type": "VARCHAR(24)"}
+      ]
+    },
+    {
+      "id": "tag",
+      "plural": "tags",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "project_id", "db_type": "INTEGER"},
+        {"name": "name", "db_type": "VARCHAR(255)"},
+        {"name": "is_initiative", "db_type": "BOOLEAN"}
+      ]
+    },
+    {
+      "id": "person",
+      "plural": "people",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "name", "db_type": "VARCHAR(100)"},
+        {"name": "username", "db_type": "VARCHAR"},
+        {"name": "initials", "db_type": "VARCHAR(100)"},
+        {"name": "email", "db_type": "VARCHAR"},
+        {"name": "email_notifications", "db_type": "BOOLEAN"}
+      ]
+    },
+    {
+      "id": "link",
+      "plural": "links",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "url", "db_type": "VARCHAR"}
+      ]
+    },
+    {
+      "id": "subtask",
+      "plural": "subtasks",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "description", "db_type": "VARCHAR(1000)"},
+        {"name": "complete", "db_type": "BOOLEAN"},
+        {"name": "position", "db_type": "DOUBLE PRECISION"}
+      ]
+    },
+    {
+      "id": "blocker",
+      "plural": "blockers",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "description", "db_type": "VARCHAR(1000)"},
+        {"name": "resolved", "db_type": "BOOLEAN"}
+      ]
+    },
+    {
+      "id": "comment",
+      "plural": "comments",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "text", "db_type": "VARCHAR(20000)"},
+        {"name": "person_id", "db_type": "INTEGER"}
+      ]
+    },
+    {
+      "id": "workspace",
+      "plural": "workspaces",
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "name", "db_type": "VARCHAR"},
+        {"name": "is_shared", "db_type": "BOOLEAN"},
+        {"name": "is_default", "db_type": "BOOLEAN"},
+        {"name": "person_id", "db_type": "INTEGER"},
+        {"name": "panel_json", "db_type": "JSONB"}
+      ]
+    },
+    {
+      "id": "task_person",
+      "is_join": true,
+      "properties": [
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "person_id", "db_type": "INTEGER"}
+      ]
+    },
+    {
+      "id": "task_requester",
+      "is_join": true,
+      "properties": [
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "requester_id", "db_type": "INTEGER"}
+      ]
+    },
+    {
+      "id": "task_tag",
+      "is_join": true,
+      "properties": [
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "tag_id", "db_type": "INTEGER"}
+      ]
+    },
+    {
+      "id": "task_project",
+      "is_join": true,
+      "properties": [
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "project_id", "db_type": "INTEGER"},
+        {"name": "position", "db_type": "DOUBLE PRECISION NOT NULL"}
+      ]
+    },
+    {
+      "id": "blocker_person",
+      "is_join": true,
+      "properties": [
+        {"name": "blocker_id", "db_type": "INTEGER"},
+        {"name": "person_id", "db_type": "INTEGER"}
+      ]
+    },
+    {
+      "id": "blocker_task",
+      "is_join": true,
+      "properties": [
+        {"name": "blocker_id", "db_type": "INTEGER"},
+        {"name": "task_id", "db_type": "INTEGER"}
+      ]
+    },
+    {
+      "id": "task_follower",
+      "is_join": true,
+      "properties": [
+        {"name": "follower_id", "db_type": "INTEGER"},
+        {"name": "task_id", "db_type": "INTEGER"}
+      ],
+      "unique_constraint": ["follower_id", "task_id"]
+    },
+    {
+      "id": "token",
+      "is_internal": true,
+      "properties": [
+        {"name": "person_id", "db_type": "INTEGER"},
+        {"name": "token_hash", "db_type": "VARCHAR"},
+        {"name": "expires", "db_type": "VARCHAR(24)"},
+        {"name": "create_date", "db_type": "VARCHAR(24)"}
+      ]
+    },
+    {
+      "id": "change",
+      "is_internal": true,
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "ent_id", "db_type": "VARCHAR"},
+        {"name": "person_id", "db_type": "INTEGER"},
+        {"name": "target_id", "db_type": "INTEGER"},
+        {"name": "task_id", "db_type": "INTEGER"},
+        {"name": "change_type", "db_type": "VARCHAR"},
+        {"name": "prop_name", "db_type": "VARCHAR"},
+        {"name": "new_value", "db_type": "VARCHAR"},
+        {"name": "create_date", "db_type": "VARCHAR(24)"}
+      ]
+    },
+    {
+      "id": "notification",
+      "is_internal": true,
+      "properties": [
+        {"name": "id", "db_type": "SERIAL PRIMARY KEY"},
+        {"name": "change_id", "db_type": "INTEGER"},
+        {"name": "person_id", "db_type": "INTEGER"},
+        {"name": "is_read", "db_type": "BOOLEAN NOT NULL"}
+      ]
+    }
+  ]
+}

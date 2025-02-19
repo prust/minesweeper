@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Project Manager Login</title>
+    <link rel="stylesheet" href="/bootstrap.css">
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/bootstrap-icons.css">
+    <style>
+      p.tip { color: #666 }
+      /* TODO: promote this to standard button style throughout app */
+      button {
+        border-radius: 5px;
+        border-width: 1px;
+        border-style: solid;
+        /*outline: inherit; the default outline is handy styling for focus */
+        padding: 1px 7px 3px 7px;
+      }
+      button:hover {
+        filter: brightness(130%)
+      }
+      button[disabled] {
+        filter: grayscale(100%)
+      }
+      button#send_email {
+        float: right;
+        margin-top: 5px;
+        border-width: 0;
+        color: white;
+        background-color: #173553; /* TODO: put this theme color in a variable */
+      }
+      input#email {
+        width: 100%
+      }
+      #login_dialog {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        padding-bottom: 50px; /* to go below the float button */
+        width: 333px;
+        margin: 100px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Project Manager Login</a>
+      </div>
+    </nav>
+
+    <div id="login_dialog">
+      <p class="tip">Enter your email to be sent a login link</p>
+      <label for="email">Email:</label><br>
+      <input id="email" placeholder="name@example.com"><br>
+      <button id="send_email" type="button" disabled>Send Email</button>
+    </div>
+
+    <!-- TODO: fix this DRY violation with index.html -->
+    <script type="importmap">
+      {
+        "imports": {
+          "underscore": "/vendor/underscore-esm-1.13.7.mjs"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import { $ } from '/utils.js';
+
+      let email_input = $('email');
+      let send_btn = $('send_email');
+
+      window.addEventListener('DOMContentLoaded', evt => email_input.focus());
+
+      enableDisableBtn();
+      email_input.addEventListener('input', enableDisableBtn);
+      function enableDisableBtn() {
+        if (email_input.value)
+          send_btn.removeAttribute('disabled');
+        else
+          send_btn.setAttribute('disabled', true);
+      }
+
+      send_btn.addEventListener('click', async evt => {
+        let email = email_input.value;
+        let res = await fetch('/auth/start', {
+          method: 'POST',
+          body: JSON.stringify({email: email}),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        });
+
+        let res_text = await res.text();
+        let res_obj;
+        try {
+          res_obj = JSON.parse(res_text);
+        }
+        catch(err) {
+          res_obj = {message: `${res_text} (HTTP Error ${res.status})`};
+        }
+
+        let message;
+        if (res.status >= 200 && res.status < 300)
+          message = `You will receive an email with a login link email if "${email}" is a registered user.`;
+        else
+          message = `Error: ${res_obj.message}${res_obj.code ? ` (${res_obj.code})` : ''}`;
+
+        $('login_dialog').innerText = message;
+      });
+    </script>
+  </body>
+</html>

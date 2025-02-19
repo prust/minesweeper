@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="/index.css">
+
+    <link href="/css/fontawesome.css" rel="stylesheet" />
+    <link href="/css/regular.css" rel="stylesheet" />
+    <link href="/css/solid.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="content"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "underscore": "/vendor/underscore-esm-1.13.7.mjs",
+          "preact": "/vendor/preact-10.24.3.mjs",
+          "preact/hooks": "/vendor/preact-10.24.3-hooks.mjs",
+          "htm": "/vendor/htm-3.1.1.mjs",
+          "@preact/signals": "/vendor/preact-signals-2.2.0.mjs",
+          "@preact/signals-core": "/vendor/preact-signals-2.2.0-core.mjs",
+          "deepsignal": "/vendor/deepsignal-1.5.0.mjs"
+        }
+      }
+    </script>
+    <script src="/index.js" type="module"></script>
+  </body>
+</html>
