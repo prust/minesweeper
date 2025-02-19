@@ -55,6 +55,10 @@ function allAdjacent(cell) {
   let adj_cells = [];
   for (let dy of [-1, 0, 1]) {
     for (let dx of [-1, 0, 1]) {
+      // don't include the cell itself
+      if (dy == 0 && dx == 0)
+        continue;
+
       if (rows[cell.y + dy]?.[cell.x + dx])
         adj_cells.push(rows[cell.y + dy][cell.x + dx]);
     }
@@ -118,19 +122,28 @@ document.addEventListener('click', function(evt) {
   }
   
   let cell = rows[y][x];
-  if (evt.shiftKey) {
+  onClick(cell, evt.shiftKey);
+});
+
+function onClick(cell, is_shift_down) {
+  if (is_shift_down) {
     cell.is_flag = !cell.is_flag;
   }
-  // else if (cell.is_visible && cell.number) {
-
-  // }
+  else if (cell.is_visible && cell.number) {
+    let adj_cells = allAdjacent(cell);
+    let num_adj_flagged = adj_cells.filter(cell => cell.is_flag).length;
+    
+    // if the user clicks on a number that has all bombs flagged
+    // then auto-click all invisible adjacent cells
+    if (num_adj_flagged == cell.number)
+      adj_cells.filter(cell => !cell.is_visible).forEach(cell => onClick(cell));
+  }
   else {
     floodFill(cell);
   }
 
   renderTable();
-  
-})
+}
 
 function floodFill(cell) {
   if (!cell.is_visible) {
