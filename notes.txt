@@ -3,3 +3,4 @@ Hours:
 * 10:22pm-11:13pm () - finished initial implementation
 * 8:29pm-8:35pm () - guarantee a flood fill on first click
 * 8:35pm-9:51pm () - click on numbers that have all flags flagged, added color
+* 10:08pm-

@@ -17,7 +17,16 @@ td.number-7,
 td.number-8 { color: #B0BEC5 }
 
 i.fa-flag {
-  color: #ff4545
+  color: #ff4545;
+}
+i.fa-bomb.exploded {
+  color: red;
+}
+td.invalid {
+  background-color: red !important;
+  i.fa-flag {
+    color: black;
+  }
 }
 
 table {
@@ -46,6 +55,15 @@ td {
     cursor: pointer;
     &:hover {
       background-color: #444444;
+    }
+  }
+}
+
+body.game-over td {
+  &.hidden {
+    cursor: default;
+    &:hover {
+      background-color: #333333;
     }
   }
 }

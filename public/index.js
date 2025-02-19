@@ -13,6 +13,7 @@ let num_cols = 30;
 let num_mines = 190;
 
 let rows;
+let is_game_over = false;
 regenerateGrid();
 
 function regenerateGrid() {
@@ -24,6 +25,7 @@ function regenerateGrid() {
         x: x,
         y: y,
         is_bomb: false,
+        exploded: false,
         is_flag: false,
         number: 0,
         is_visible: false
@@ -84,11 +86,11 @@ function renderTable() {
         <tr>
           ${row.map(function(cell) {
             if (cell.is_flag)
-              return html`<td class="hidden"><i class="fa-solid fa-flag"></i></td>`;
+              return html`<td class="hidden ${is_game_over && !cell.is_bomb ? 'invalid' : ''}"><i class="fa-solid fa-flag"></i></td>`;
+            else if (is_game_over && cell.is_bomb)
+              return html`<td><i class="fa-solid fa-bomb ${cell.exploded ? 'exploded' : ''}"></i></td>`;
             else if (!cell.is_visible)
               return html`<td class="hidden"></td>`;
-            else if (cell.is_bomb)
-              return html`<td><i class="fa-solid fa-bomb"></i></td>`;
             else if (cell.number)
               return html`<td class="number-${cell.number}">${cell.number}</td>`;
             else
@@ -126,6 +128,9 @@ document.addEventListener('click', function(evt) {
 });
 
 function onClick(cell, is_shift_down) {
+  if (is_game_over)
+    return;
+
   if (is_shift_down) {
     if (!cell.is_visible)
       cell.is_flag = !cell.is_flag;
@@ -151,7 +156,13 @@ function onClick(cell, is_shift_down) {
 function floodFill(cell) {
   if (!cell.is_visible) {
     cell.is_visible = true;
-    if (!cell.is_bomb && !cell.number)
+    
+    if (cell.is_bomb) {
+      is_game_over = true;
+      document.body.className = 'game-over';
+      cell.exploded = true;
+    }
+    else if (!cell.number)
       allAdjacent(cell).forEach(floodFill);
   }
 }
