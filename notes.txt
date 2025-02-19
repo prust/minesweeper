@@ -1,6 +1,7 @@
 Hours:
-* 9:55pm-10:16pm () - getting started
-* 10:22pm-11:13pm () - finished initial implementation
-* 8:29pm-8:35pm () - guarantee a flood fill on first click
-* 8:35pm-9:51pm () - click on numbers that have all flags flagged, added color
-* 10:08pm-
+* Feb 17: 9:55pm-10:16pm (0:21) - getting started
+* Feb 17: 10:22pm-11:13pm (0:51) - finished initial implementation
+* Feb 18: 8:29pm-8:35pm (0:06) - guarantee a flood fill on first click
+* Feb 18: 8:35pm-9:51pm (1:26) - click on numbers that have all flags flagged, added color
+* Feb 18: 10:08pm-10:26pm (0:18) - added game over state (ability to lose game)
+Subtotal: 3:02
