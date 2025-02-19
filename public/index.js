@@ -90,7 +90,7 @@ function renderTable() {
             else if (cell.is_bomb)
               return html`<td><i class="fa-solid fa-bomb"></i></td>`;
             else if (cell.number)
-              return html`<td>${cell.number}</td>`;
+              return html`<td class="number-${cell.number}">${cell.number}</td>`;
             else
               return html`<td> </td>`;
           })}

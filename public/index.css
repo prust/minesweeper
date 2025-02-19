@@ -6,11 +6,25 @@ body, html {
 body {
   background-color: #222222;
 }
+
+td.number-1 { color: #B894F6 }
+td.number-2 { color: #d2f694 }
+td.number-3 { color: #f694d2 }
+td.number-4 { color: #f6b894 }
+td.number-5 { color: #BCAAA4 }
+td.number-6 { color: rgb(152, 152, 255) }
+td.number-7,
+td.number-8 { color: #B0BEC5 }
+
+i.fa-flag {
+  color: #ff4545
+}
+
 table {
   /* center */
   margin-left: auto;
   margin-right: auto;
-  
+
   border-collapse: collapse;
 }
 td {
