@@ -1,3 +1,5 @@
 Hours:
 * 9:55pm-10:16pm () - getting started
-* 10:22pm-11:13pm () - getting started
+* 10:22pm-11:13pm () - finished initial implementation
+* 8:29pm-8:35pm () - guarantee a flood fill on first click
+* 8:35pm- () - click on numbers that have all flags flagged
