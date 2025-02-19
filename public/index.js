@@ -127,16 +127,19 @@ document.addEventListener('click', function(evt) {
 
 function onClick(cell, is_shift_down) {
   if (is_shift_down) {
-    cell.is_flag = !cell.is_flag;
+    if (!cell.is_visible)
+      cell.is_flag = !cell.is_flag;
   }
-  else if (cell.is_visible && cell.number) {
-    let adj_cells = allAdjacent(cell);
-    let num_adj_flagged = adj_cells.filter(cell => cell.is_flag).length;
-    
-    // if the user clicks on a number that has all bombs flagged
-    // then auto-click all invisible adjacent cells
-    if (num_adj_flagged == cell.number)
-      adj_cells.filter(cell => !cell.is_visible).forEach(cell => onClick(cell));
+  else if (cell.is_visible) {
+    if (cell.number) {
+      let adj_cells = allAdjacent(cell);
+      let num_adj_flagged = adj_cells.filter(cell => cell.is_flag).length;
+      
+      // if the user clicks on a number that has all bombs flagged
+      // then auto-click all invisible adjacent cells
+      if (num_adj_flagged == cell.number)
+        adj_cells.filter(cell => !cell.is_visible).forEach(cell => onClick(cell));
+    }
   }
   else {
     floodFill(cell);
