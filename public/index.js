@@ -141,9 +141,9 @@ function onClick(cell, is_shift_down) {
       let num_adj_flagged = adj_cells.filter(cell => cell.is_flag).length;
       
       // if the user clicks on a number that has all bombs flagged
-      // then auto-click all invisible adjacent cells
+      // then auto-click all invisible and unflagged adjacent cells
       if (num_adj_flagged == cell.number)
-        adj_cells.filter(cell => !cell.is_visible).forEach(cell => onClick(cell));
+        adj_cells.filter(cell => !cell.is_visible && !cell.is_flag).forEach(cell => onClick(cell));
     }
   }
   else {
