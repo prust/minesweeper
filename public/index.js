@@ -151,6 +151,13 @@ function onClick(cell, is_shift_down) {
   }
 
   renderTable();
+
+  if (is_game_over) {
+    // give time for a repaint AND time for bomb glyphs to load
+    setTimeout(function() {
+      alert('BOOM. Game Over.')
+    }, 100);
+  }
 }
 
 function floodFill(cell) {
